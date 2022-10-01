@@ -40,7 +40,7 @@
             const resultElement = document.getElementById('result');
             const resultLink = document.getElementById('authUrl');
 
-            const getAuthUrl = 'https://mmq11faocc.execute-api.us-west-2.amazonaws.com/api/get-auth-url';
+            const getAuthUrl = 'https://oep4qjkthb.execute-api.us-west-2.amazonaws.com/dev/api/get-auth-url';
 
             getCodeElement.onclick = function () {
                 fetch(getAuthUrl)
@@ -59,7 +59,7 @@
             const getTokenButton = document.getElementById('getToken');
             const accessToken = document.getElementById('accessToken');
 
-            const getTokenUrl = 'https://mmq11faocc.execute-api.us-west-2.amazonaws.com/api/token/';
+            const getTokenUrl = 'https://oep4qjkthb.execute-api.us-west-2.amazonaws.com/dev/api/token/';
 
             getTokenButton.onclick = () => {
                 let code = codeInput.value;
@@ -67,36 +67,43 @@
                 // If decoding changes nothing, it's not URL encoded.
                 // So encode it.
                 if (decodeURIComponent(code) === code) {
-                    console.log('The code was URL encoded')
+                    console.log('The code needed URL encoded')
                     code = encodeURIComponent(code);
                 }
                 const fetchUrl = getTokenUrl + code;
                 fetch(fetchUrl)
                 .then((response) => {
-                    console.log('received response')
+                    console.log('received response');
                     return response.json();
                 }).then((json) => {
-                    console.log('setting response')
-                    accessToken.innerText = json;
+                    console.log('setting response');
+                    accessToken.innerText = JSON.stringify(json);
                 }).catch((err) => {
-                    console.log('received error')
+                    console.log('received error');
                     console.error(err);
                 });
             }
             // --------------------------- END STEP 2
+
             // --------------------------- STEP 3
             const eventButton = document.getElementById('getEvents');
             const eventsField = document.getElementById('events');
-            const getEventsUrl = 'https://mmq11faocc.execute-api.us-west-2.amazonaws.com/api/get-events/';
+
+            const getEventsUrl = 'https://tapr6uifda.execute-api.us-west-2.amazonaws.com/api/get-events/';
 
             eventButton.onclick = () => {
                 const { access_token } = JSON.parse(accessToken.innerText);
                 const fetchUrl = getEventsUrl + access_token;
 
+                console.log('accessToken', access_token)
+                console.log('fetchUrl', fetchUrl)
+
                 fetch(fetchUrl)
                 .then((response) => {
                     return response.json();
                 }).then((json) => {
+                    console.log('result json')
+                    console.log(json)
                     eventsField.innerText = JSON.stringify(json, null, 4);
                 })
             };
