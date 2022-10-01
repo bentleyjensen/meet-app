@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Test Auth Server</title>
+    </head>
+    <body>
+        <style>
+            #container {
+                max-width: 500px;
+            }
+
+            h4 {
+                margin-top: 25px;
+            }
+        </style>
+        <main id="container">
+            <h1>OAuth2 Test</h1>
+            <h4><b>Step 1:</b> Get the Auth URL</h4>
+            <button id="getCode">Get URL</button>
+            <p id="result"></p>
+            <a id="authUrl" href target="_blank">Authorize</a>
+
+            <h4><b>Step 2:</b> Exchange code for token</h4>
+            <p>Complete authorization in step one, and copy the code from the URI once you've been redirected to the github site.</p>
+            <input placeholder="Auth Code" id="code" type="text" value="" />
+            <button id="getToken">Get Token</button>
+            <p id="accessToken"></p>
+
+            <h4><b>Step 3:</b> Get events using the token</h4>
+            <button id="getEvents">Get Events</button>
+            <p id="events"></p>
+        </main>
+
+        <script>
+            // --------------------------- STEP 1
+            const getCodeElement = document.getElementById('getCode');
+            const resultElement = document.getElementById('result');
+            const resultLink = document.getElementById('authUrl');
+
+            const getAuthUrl = 'https://mmq11faocc.execute-api.us-west-2.amazonaws.com/api/get-auth-url';
+
+            getCodeElement.onclick = function () {
+                fetch(getAuthUrl)
+                .then((response) => {
+                    return response.json();
+                }).then((json) => {
+                    resultElement.innerText = JSON.stringify(json);
+                    resultLink.href = json.authUrl;
+                }).catch((err) => {
+                    console.error(err);
+                });
+            }
+            // --------------------------- END STEP 1
+            // --------------------------- STEP 2
+            const codeInput = document.getElementById('code');
+            const getTokenButton = document.getElementById('getToken');
+            const accessToken = document.getElementById('accessToken');
+
+            const getTokenUrl = 'https://mmq11faocc.execute-api.us-west-2.amazonaws.com/api/token/';
+
+            getTokenButton.onclick = () => {
+                let code = codeInput.value;
+
+                // If decoding changes nothing, it's not URL encoded.
+                // So encode it.
+                if (decodeURIComponent(code) === code) {
+                    console.log('The code was URL encoded')
+                    code = encodeURIComponent(code);
+                }
+                const fetchUrl = getTokenUrl + code;
+                fetch(fetchUrl)
+                .then((response) => {
+                    console.log('received response')
+                    return response.json();
+                }).then((json) => {
+                    console.log('setting response')
+                    accessToken.innerText = json;
+                }).catch((err) => {
+                    console.log('received error')
+                    console.error(err);
+                });
+            }
+            // --------------------------- END STEP 2
+            // --------------------------- STEP 3
+            const eventButton = document.getElementById('getEvents');
+            const eventsField = document.getElementById('events');
+            const getEventsUrl = 'https://mmq11faocc.execute-api.us-west-2.amazonaws.com/api/get-events/';
+
+            eventButton.onclick = () => {
+                const { access_token } = JSON.parse(accessToken.innerText);
+                const fetchUrl = getEventsUrl + access_token;
+
+                fetch(fetchUrl)
+                .then((response) => {
+                    return response.json();
+                }).then((json) => {
+                    eventsField.innerText = JSON.stringify(json, null, 4);
+                })
+            };
+            // --------------------------- END STEP 3
+
+        </script>
+    </body>
+</html>

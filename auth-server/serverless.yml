@@ -1,0 +1,49 @@
+service: auth-server
+frameworkVersion: '3'
+
+# Throw on config errors
+# Options are 'error', 'warn' and 'off'
+# https://www.serverless.com/framework/docs/configuration-validation
+configValidationMode: error
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-west-2
+  timeout: 30
+  environment: # you can define service wide environment variables here
+    CALENDAR_ID: ${file(config.json):CALENDAR_ID}
+    CLIENT_ID: ${file(config.json):CLIENT_ID}
+    PROJECT_ID: ${file(config.json):PROJECT_ID}
+    CLIENT_SECRET: ${file(config.json):CLIENT_SECRET}
+
+functions:
+  getAuthURL:
+    handler: handler.getAuthURL
+    events:
+      - httpApi:
+          path: /api/get-auth-url
+          method: GET
+  getAccessToken:
+    handler: handler.getAccessToken
+    events:
+      - httpApi:
+          path: /api/token/{code}
+          method: get
+  getCalendarEvents:
+    handler: handler.getCalendarEvents
+    events:
+      - httpApi:
+          path: /api/get-events/{accessToken}
+          method: get
+
+
+#    The following are a few example events you can configure
+#    NOTE: Please make sure to change your handler code to work with those events
+#    Check the event documentation for details
+#  hello:
+#    handler: handler.hello
+#    events:
+#      - httpApi:
+#          path: /users/create
+#          method: get
