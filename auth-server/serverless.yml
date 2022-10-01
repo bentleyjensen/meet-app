@@ -21,19 +21,19 @@ functions:
   getAuthURL:
     handler: handler.getAuthURL
     events:
-      - httpApi:
+      - http:
           path: /api/get-auth-url
           method: GET
   getAccessToken:
     handler: handler.getAccessToken
     events:
-      - httpApi:
+      - http:
           path: /api/token/{code}
           method: get
   getCalendarEvents:
     handler: handler.getCalendarEvents
     events:
-      - httpApi:
+      - http:
           path: /api/get-events/{accessToken}
           method: get
 
