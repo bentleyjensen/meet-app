@@ -89,6 +89,7 @@ module.exports.getCalendarEvents = async (event) => {
 
     oAuth2Client.setCredentials({ accessToken });
 
+    console.log('calendar events triggered')
     return new Promise((resolve, reject) => {
         calendar.events.list(
             {
@@ -107,6 +108,7 @@ module.exports.getCalendarEvents = async (event) => {
             }
         );
     }).then((result) => {
+        console.log('Promise resolved. Sending 200 response')
         return {
             statusCode: 200,
             headers: {
@@ -117,6 +119,7 @@ module.exports.getCalendarEvents = async (event) => {
             }),
         }
     }).catch((err) => {
+        console.log('Promise rejected. Sending 500 response')
         console.error(err);
         return {
             statusCode: 500,
