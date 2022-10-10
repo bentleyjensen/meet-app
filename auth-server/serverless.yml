@@ -1,3 +1,5 @@
+org: bentleyjensen
+console: true
 service: auth-server
 frameworkVersion: '3'
 
@@ -24,18 +26,24 @@ functions:
       - http:
           path: /api/get-auth-url
           method: GET
+          cors:
+            origin: '*'
   getAccessToken:
     handler: handler.getAccessToken
     events:
       - http:
           path: /api/token/{code}
-          method: get
+          method: GET
+          cors:
+            origin: '*'
   getCalendarEvents:
     handler: handler.getCalendarEvents
     events:
       - http:
-          path: /api/get-events/{accessToken}
-          method: get
+          path: /api/get-events/{access_token}
+          method: GET
+          cors:
+            origin: '*'
 
 
 #    The following are a few example events you can configure

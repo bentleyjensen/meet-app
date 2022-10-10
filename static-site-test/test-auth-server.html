@@ -27,7 +27,7 @@
             <p>Complete authorization in step one, and copy the code from the URI once you've been redirected to the github site.</p>
             <input placeholder="Auth Code" id="code" type="text" value="" />
             <button id="getToken">Get Token</button>
-            <p id="accessToken"></p>
+            <p id="access_token"></p>
 
             <h4><b>Step 3:</b> Get events using the token</h4>
             <button id="getEvents">Get Events</button>
@@ -35,12 +35,20 @@
         </main>
 
         <script>
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+            // REMOVE ALL {params} FROM URLS //
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+            //     END URLs WITH A SLASH     //
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+            const getAuthUrl   = 'https://bqdq1h09r5.execute-api.us-west-2.amazonaws.com/dev/api/get-auth-url/';
+            const getTokenUrl  = 'https://bqdq1h09r5.execute-api.us-west-2.amazonaws.com/dev/api/token/';
+            const getEventsUrl = 'https://bqdq1h09r5.execute-api.us-west-2.amazonaws.com/dev/api/get-events/';
+
             // --------------------------- STEP 1
             const getCodeElement = document.getElementById('getCode');
             const resultElement = document.getElementById('result');
             const resultLink = document.getElementById('authUrl');
 
-            const getAuthUrl = 'https://oep4qjkthb.execute-api.us-west-2.amazonaws.com/dev/api/get-auth-url';
 
             getCodeElement.onclick = function () {
                 fetch(getAuthUrl)
@@ -54,12 +62,11 @@
                 });
             }
             // --------------------------- END STEP 1
+
             // --------------------------- STEP 2
             const codeInput = document.getElementById('code');
             const getTokenButton = document.getElementById('getToken');
-            const accessToken = document.getElementById('accessToken');
-
-            const getTokenUrl = 'https://oep4qjkthb.execute-api.us-west-2.amazonaws.com/dev/api/token/';
+            const access_token_element = document.getElementById('access_token');
 
             getTokenButton.onclick = () => {
                 let code = codeInput.value;
@@ -77,7 +84,7 @@
                     return response.json();
                 }).then((json) => {
                     console.log('setting response');
-                    accessToken.innerText = JSON.stringify(json);
+                    access_token_element.innerText = JSON.stringify(json);
                 }).catch((err) => {
                     console.log('received error');
                     console.error(err);
@@ -89,13 +96,11 @@
             const eventButton = document.getElementById('getEvents');
             const eventsField = document.getElementById('events');
 
-            const getEventsUrl = 'https://tapr6uifda.execute-api.us-west-2.amazonaws.com/api/get-events/';
-
             eventButton.onclick = () => {
-                const { access_token } = JSON.parse(accessToken.innerText);
+                const { access_token } = JSON.parse(access_token_element.innerText);
                 const fetchUrl = getEventsUrl + access_token;
 
-                console.log('accessToken', access_token)
+                console.log('access_token', access_token)
                 console.log('fetchUrl', fetchUrl)
 
                 fetch(fetchUrl)
