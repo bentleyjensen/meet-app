@@ -19,9 +19,9 @@ describe('EventCount Component', () => {
         expect(EventCountWrapper.find('.eventCount')).toHaveLength(1);
     });
 
-    test('Count defaults to blank', () => {
-        expect(EventCountWrapper.state('count')).toBe(0);
-        expect(EventCountWrapper.find('.eventCount').prop('value')).toBe(0);
+    test('Count defaults to 32', () => {
+        expect(EventCountWrapper.state('count')).toBe(32);
+        expect(EventCountWrapper.find('.eventCount').prop('value')).toBe(32);
     });
 
     test('Change state when text input changes', () => {

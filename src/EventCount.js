@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Event extends Component {
     state = {
-        count: 0,
+        count: 32,
     }
 
     // Keep in mind that this is the 'change' event, not a calendar event
