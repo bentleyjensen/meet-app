@@ -14,7 +14,7 @@ class Event extends Component {
     render() {
         const { collapsed } = this.state;
         return (
-            <li className='event'>
+            <>
                 <h1 className='summary'>aoeu</h1>
                 <p className='datetime'></p>
                 <p className='location'></p>
@@ -22,7 +22,7 @@ class Event extends Component {
                 { !collapsed && <a href='/' className='calendarLink'>aoeu</a> }
                 { !collapsed && <p className='description' ></p> }
                 <button className='detailsButton' onClick={this.toggleCollapsed}>{collapsed ? 'Show' : 'Hide'} Details</button>
-            </li>
+            </>
         );
     }
 }
