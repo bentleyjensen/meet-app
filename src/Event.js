@@ -13,14 +13,15 @@ class Event extends Component {
     }
     render() {
         const { collapsed } = this.state;
+        const { event } = this.props;
         return (
             <>
-                <h1 className='summary'>aoeu</h1>
-                <p className='datetime'></p>
-                <p className='location'></p>
-                { !collapsed && <h3 className='aboutHeading'>aoeu</h3> }
-                { !collapsed && <a href='/' className='calendarLink'>aoeu</a> }
-                { !collapsed && <p className='description' ></p> }
+                <h1 className='summary'>{event.summary}</h1>
+                <p className='datetime'>{new Date(event.start.dateTime).toString()}</p>
+                <p className='location'>{event.location}</p>
+                { !collapsed && <h3 className='aboutHeading'>About</h3> }
+                {!collapsed && <a href={event.htmlLink} className='calendarLink'>See details on Google Calendar</a> }
+                { !collapsed && <p className='description' >{event.description}</p> }
                 <button className='detailsButton' onClick={this.toggleCollapsed}>{collapsed ? 'Show' : 'Hide'} Details</button>
             </>
         );

@@ -1,3 +1,5 @@
+import { mockData } from './mock-data';
+
 /**
  * @param {*} events:
  * This function takes an events array, then uses map to create a new array with only locations.
@@ -9,4 +11,8 @@ export const extractLocations = (events) => {
     // Set removes duplicates
     // Using spread converts back to array
     return [...new Set(locations)];
+}
+
+export const getEvents = async () => {
+    return mockData;
 }

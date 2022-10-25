@@ -18,9 +18,13 @@ class CitySearch extends Component {
     }
 
     handleItemClicked = (suggestion) => {
+        // Expand 'all' for displaying
+        const queryString = (suggestion === 'all') ? 'See all Cities' : suggestion;
+
         this.setState({
-            query: suggestion
-        })
+            query: queryString
+        });
+        this.props.updateEvents(suggestion);
     }
 
     render() {
@@ -35,7 +39,7 @@ class CitySearch extends Component {
                     {this.state.suggestions.map( suggestion => {
                         return <li key={suggestion} onClick={() => {this.handleItemClicked(suggestion)}} >{suggestion}</li>
                     })}
-                    <li key='all'>See All Cities</li>
+                    <li key='all' onClick={() => { this.handleItemClicked('all') }}>See All Cities</li>
                 </ul>
             </div>
         )
