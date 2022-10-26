@@ -75,4 +75,20 @@ describe('CitySearch component', () => {
         citySearchWrapper.find('.suggestions li').at(0).simulate('click');
         expect(citySearchWrapper.state('query')).toBe(suggestions[0]);
     });
+
+    test('selecting CitySearch input reveals suggestions list', () => {
+        citySearchWrapper.find('.cityInput').simulate('focus');
+        expect(citySearchWrapper.state('showSuggestions')).toBe(true);
+        expect(citySearchWrapper.find('.suggestions').prop('style')).not.toEqual({ display: 'none' })
+    });
+
+    test('selecting a suggestion should hide the suggestions list', () => {
+        citySearchWrapper.setState({
+            query: 'Berlin',
+            showSuggestions: undefined,
+        });
+        citySearchWrapper.find('.suggestions li').at(0).simulate('click');
+        expect(citySearchWrapper.state('showSuggestions')).toBe(false);
+        expect(citySearchWrapper.find('.suggestions').prop('style')).toEqual({ display: 'none' })
+    });
 })
