@@ -85,4 +85,28 @@ describe('App integration tests', () => {
         expect(AppWrapper.state('events')).toEqual(allEvents);
         AppWrapper.unmount();
     });
+
+    test('App passes "countEvents" prop to EventCount', async () => {
+        const AppWrapper = mount(<App />);
+        const AppEventCountState = AppWrapper.state('countEvents');
+        expect(AppEventCountState).not.toEqual(undefined);
+        expect(AppWrapper.find(EventCount).props().countEvents).toEqual(AppEventCountState);
+        AppWrapper.unmount();
+    });
+
+    test('EventCount state updates on change', async () => {
+        const AppWrapper = mount(<App />);
+        const eventCountWrapper = AppWrapper.find(EventCount);
+
+        expect().toBe();
+        AppWrapper.unmount();
+    });
+
+    test('Events match mock data', async () => {
+        const AppWrapper = mount(<App />);
+        const eventCountWrapper = AppWrapper.find(EventCount);
+
+        expect().toBe();
+        AppWrapper.unmount();
+    });
 });
