@@ -94,11 +94,16 @@ describe('App integration tests', () => {
         AppWrapper.unmount();
     });
 
-    test('EventCount state updates on change', async () => {
+    test('countEvents state updates on change', async () => {
         const AppWrapper = mount(<App />);
-        const eventCountWrapper = AppWrapper.find(EventCount);
+        expect(AppWrapper.state('countEvents')).toBe(32);
 
-        expect().toBe();
+        const eventCountWrapper = AppWrapper.find(EventCount);
+        const eventObject = { target: { value: '5' } };
+        await eventCountWrapper.find('.eventCount').simulate('change', eventObject);
+
+        expect(AppWrapper.state('countEvents')).toBe(5);
+        expect(AppWrapper.find(EventCount).props().countEvents).toBe(5);
         AppWrapper.unmount();
     });
 
