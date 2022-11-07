@@ -14,7 +14,7 @@ describe('CitySearch component', () => {
     beforeAll(() => {
         // Get an array of locations
         locations = extractLocations(mockData);
-        citySearchWrapper = shallow(<CitySearch locations={locations} updateEvents={() => { }} />);
+        citySearchWrapper = shallow(<CitySearch locations={locations} updateSelectedLocation={() => { }} />);
     });
 
     test('render text input box', () => {

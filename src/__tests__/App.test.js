@@ -3,6 +3,7 @@ import Enzyme, { shallow, mount } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
 import App from '../App';
+import Event from '../Event';
 import EventList from '../EventList';
 import EventCount from '../EventCount';
 import CitySearch from '../CitySearch';
@@ -40,7 +41,6 @@ describe('App integration tests', () => {
         const AppWrapper = mount(<App />);
         const AppEventsState = AppWrapper.state('events');
         expect(AppEventsState).not.toEqual(undefined);
-        console.log(Object.keys(AppWrapper.find(EventList).props()), AppWrapper.find(EventList).props().events)
 
         expect(AppWrapper.find(EventList).props().events).toEqual(AppEventsState);
         AppWrapper.unmount();
@@ -104,14 +104,6 @@ describe('App integration tests', () => {
 
         expect(AppWrapper.state('countEvents')).toBe(5);
         expect(AppWrapper.find(EventCount).props().countEvents).toBe(5);
-        AppWrapper.unmount();
-    });
-
-    test('Events match mock data', async () => {
-        const AppWrapper = mount(<App />);
-        const eventCountWrapper = AppWrapper.find(EventCount);
-
-        expect().toBe();
         AppWrapper.unmount();
     });
 });

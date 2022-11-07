@@ -15,7 +15,7 @@ class Event extends Component {
         const { collapsed } = this.state;
         const { event } = this.props;
         return (
-            <>
+            <div className='event'>
                 <h1 className='summary'>{event.summary}</h1>
                 <p className='datetime'>{new Date(event.start.dateTime).toString()}</p>
                 <p className='location'>{event.location}</p>
@@ -23,7 +23,7 @@ class Event extends Component {
                 {!collapsed && <a href={event.htmlLink} className='calendarLink'>See details on Google Calendar</a> }
                 { !collapsed && <p className='description' >{event.description}</p> }
                 <button className='detailsButton' onClick={this.toggleCollapsed}>{collapsed ? 'Show' : 'Hide'} Details</button>
-            </>
+            </div>
         );
     }
 }
