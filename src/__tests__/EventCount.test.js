@@ -12,25 +12,14 @@ describe('EventCount Component', () => {
     let EventCountWrapper;
 
     beforeAll(() => {
-        EventCountWrapper = shallow(<EventCount event={mockData[0]} />);
+        EventCountWrapper = shallow(<EventCount countEvents={32} />);
     });
 
     test('Render text input box', () => {
         expect(EventCountWrapper.find('.eventCount')).toHaveLength(1);
     });
 
-    test('Count defaults to 32', () => {
-        expect(EventCountWrapper.state('count')).toBe(32);
-        expect(EventCountWrapper.find('.eventCount').prop('value')).toBe(32);
-    });
-
-    test('Change state when text input changes', () => {
-        EventCountWrapper.setState({
-            count: 5
-        });
-        const eventObject = { target: { value: 10 }};
-        EventCountWrapper.find('.eventCount').simulate('change', eventObject);
-        expect(EventCountWrapper.state('count')).toBe(10);
-        expect(EventCountWrapper.find('.eventCount').prop('value')).toBe(10);
-    });
+    test('EventCount value is derived from countEvents prop', () => {
+        expect(EventCountWrapper.find('.eventCount').props().value).toBe(32);
+    })
 });

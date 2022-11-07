@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 
 class Event extends Component {
-    state = {
-        count: 32,
-    }
-
-    // Keep in mind that this is the 'change' event, not a calendar event
+    // Keep in mind that this event arg is the 'change' event, not a calendar event
     handleOnChange = (event) => {
-        this.setState({
-            count: event.target.value
-        })
+        this.props.updateCount(event.target.value)
     }
 
     render() {
         return <input
             className='eventCount'
-            value={this.state.count}
+            value={this.props.countEvents}
             onChange={this.handleOnChange}
         ></input>;
     }
