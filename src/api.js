@@ -1,7 +1,7 @@
 import axios from 'axios';
 import NProgress from 'nprogress';
 
-// import { mockData } from './mock-data';
+import { mockData } from './mock-data';
 
 const config = {
     "getAuthUrl": "https://bqdq1h09r5.execute-api.us-west-2.amazonaws.com/dev/api/get-auth-url",
@@ -73,11 +73,11 @@ export const extractLocations = (events) => {
 export const getEvents = async () => {
     NProgress.start();
 
-    // if (window.location.href.startsWith('http://localhost')) {
-    //     NProgress.done();
+    if (window.location.href.startsWith('http://localhost')) {
+        NProgress.done();
 
-    //     return mockData;
-    // }
+        return mockData;
+    }
 
     const accessToken = await getAccessToken();
 
