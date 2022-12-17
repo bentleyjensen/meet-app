@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { InfoAlert } from "./Alert";
 
 class CitySearch extends Component {
     state = {
         query: '',
         suggestions: [],
         showSuggestions: false,
+        infoText: '',
     }
 
     handleInputChange = (event) => {
@@ -12,10 +14,22 @@ class CitySearch extends Component {
         const locations = this.props.locations.filter(location => {
             return location.toUpperCase().indexOf(value.toUpperCase()) !== -1
         });
-        this.setState({
-            query: value,
-            suggestions: locations,
-        });
+
+        // We don't want to make multiple calls to setState, so we're duplicating a few lines
+        // But it's intentional. Leave it alone.
+        if (locations.length === 0) {
+            this.setState({
+                query: value,
+                infoText: 'Oops, we couldn\'t find that city. Check your spelling or try a different city.',
+                suggestions: locations,
+            });
+        } else {
+            this.setState({
+                query: value,
+                infoText: '',
+                suggestions: locations,
+            });
+        }
     }
 
     handleItemClicked = (suggestion) => {
@@ -25,6 +39,7 @@ class CitySearch extends Component {
         this.setState({
             query: queryString,
             showSuggestions: false,
+            infoText: '',
         });
 
         this.props.updateSelectedLocation(suggestion);
@@ -33,6 +48,7 @@ class CitySearch extends Component {
     render() {
         return (
             <div className='citySearch'>
+                <InfoAlert text={this.state.infoText} />
                 <input type='text'
                     className='cityInput'
                     value={this.state.query}
