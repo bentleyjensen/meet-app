@@ -1,7 +1,7 @@
 import axios from 'axios';
 import NProgress from 'nprogress';
 
-import { mockData } from './mock-data';
+import { mockData, mockData40 } from './mock-data';
 
 const config = {
     "getAuthUrl": "https://bqdq1h09r5.execute-api.us-west-2.amazonaws.com/dev/api/get-auth-url",
@@ -84,11 +84,11 @@ export const getEvents = async () => {
         NProgress.done();
 
 
-        const locations = extractLocations(mockData);
-        localStorage.setItem("lastEvents", JSON.stringify(mockData));
+        const locations = extractLocations(mockData40);
+        localStorage.setItem("lastEvents", JSON.stringify(mockData40));
         localStorage.setItem("locations", JSON.stringify(locations));
 
-        return mockData;
+        return mockData40;
     }
 
     console.log('Network detected');
