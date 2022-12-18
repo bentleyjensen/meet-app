@@ -112,7 +112,9 @@ class App extends Component {
         }
         return <>
             <div className="App">
+                <h4 style={{ 'marginBottom': 0}} >Search by city</h4>
                 <CitySearch locations={this.state.locations} updateSelectedLocation={this.updateSelectedLocation} />
+                <h4 style={{ 'marginBottom': '10px' }} >Number of events to show</h4>
                 <EventCount countEvents={this.state.countEvents} updateCount={this.updateCount} />
                 <div className='data-vis-wrapper'>
                     <EventGenre events={this.state.events} />

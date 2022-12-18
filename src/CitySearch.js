@@ -20,7 +20,7 @@ class CitySearch extends Component {
         if (locations.length === 0) {
             this.setState({
                 query: value,
-                infoText: 'Oops, we couldn\'t find that city. Check your spelling or try a different city.',
+                infoText: 'Oops, we couldn\'t find that city.',
                 suggestions: locations,
             });
         } else {
