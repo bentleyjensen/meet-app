@@ -71,13 +71,11 @@ class App extends Component {
 
     getData = () => {
         const { locations, events } = this.state;
-        console.log(locations.length);
         const data = locations.map((location) => {
             const number = events.filter((event) => event.location === location).length;
             const city = location.split(', ').shift();
             return {city, number};
         });
-        console.log(data);
         return data;
     }
 
@@ -97,7 +95,7 @@ class App extends Component {
         if ((isLocalhost || code || isTokenValid) && this.mounted) {
             getEvents().then((events) => {
                 if (this.mounted) {
-                    this.setState({ events, locations: extractLocations(events) });
+                    this.setState({ events: events.slice(0,this.state.countEvents), locations: extractLocations(events) });
                 }
             });
         }
