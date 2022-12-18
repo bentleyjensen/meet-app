@@ -23,7 +23,7 @@ const getToken = async(code) => {
     return access_token
 }
 
-const checkToken = async (accessToken) => {
+export const checkToken = async (accessToken) => {
     const tokenLink = `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`;
 
     const result = await fetch(tokenLink)
@@ -73,12 +73,25 @@ export const extractLocations = (events) => {
 export const getEvents = async () => {
     NProgress.start();
 
-    if (window.location.href.startsWith('http://localhost')) {
+    if (!navigator.onLine) {
+        console.log('Offline mode')
+        const data = localStorage.getItem("lastEvents");
         NProgress.done();
+        return data ? JSON.parse(data) : [];
+
+    } else if (window.location.href.startsWith('http://localhost')) {
+        console.log('localhost detected');
+        NProgress.done();
+
+
+        const locations = extractLocations(mockData);
+        localStorage.setItem("lastEvents", JSON.stringify(mockData));
+        localStorage.setItem("locations", JSON.stringify(locations));
 
         return mockData;
     }
 
+    console.log('Network detected');
     const accessToken = await getAccessToken();
 
     if (accessToken) {
