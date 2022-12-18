@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ResponsiveContainer, ScatterChart, Scatter, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
 import './App.css';
 import EventList from './EventList';
 import EventCount from './EventCount';
@@ -68,16 +69,32 @@ class App extends Component {
         this.updateEvents(selectedLocation);
     }
 
+    getData = () => {
+        const { locations, events } = this.state;
+        console.log(locations.length);
+        const data = locations.map((location) => {
+            const number = events.filter((event) => event.location === location).length;
+            const city = location.split(', ').shift();
+            return {city, number};
+        });
+        console.log(data);
+        return data;
+    }
+
     async componentDidMount() {
         this.mounted = true;
         const accessToken = localStorage.getItem('access_token');
         const isTokenValid = (await checkToken(accessToken)).error ? false : true;
         const searchParams = new URLSearchParams(window.location.search);
         const code = searchParams.get("code");
+        const isLocalhost = window.location.href.startsWith('http://localhost');
 
-        this.setState({ showWelcomeScreen: !(code || isTokenValid) });
+        // In order to show the screen:
+        // Not on localhost
+        // AND not have either of: a code or valid token
+        this.setState({ showWelcomeScreen: (!isLocalhost && !( code || isTokenValid)) });
 
-        if ((code || isTokenValid) && this.mounted) {
+        if ((isLocalhost || code || isTokenValid) && this.mounted) {
             getEvents().then((events) => {
                 if (this.mounted) {
                     this.setState({ events, locations: extractLocations(events) });
@@ -98,6 +115,18 @@ class App extends Component {
             <div className="App">
                 <CitySearch locations={this.state.locations} updateSelectedLocation={this.updateSelectedLocation} />
                 <EventCount countEvents={this.state.countEvents} updateCount={this.updateCount} />
+                <h4>Events in each city</h4>
+                <ResponsiveContainer height={400}>
+                    <ScatterChart
+                        margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                    >
+                        <CartesianGrid />
+                        <XAxis type='category' dataKey='city' name='City' />
+                        <YAxis type='number' dataKey='number' name='# of Events' allowDecimals={false} />
+                        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                        <Scatter data={this.getData()} fill="#8884d8" />
+                    </ScatterChart>
+                </ResponsiveContainer>
                 <EventList events={this.state.events} />
                 <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen}
                     getAccessToken={() => { getAccessToken() }} />
